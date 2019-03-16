@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Letterlabyrinth.iml" filepath="$PROJECT_DIR$/Letterlabyrinth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Letterlabyrint.iml" filepath="$PROJECT_DIR$/Letterlabyrint.iml" />
     </modules>
   </component>
 </project>
