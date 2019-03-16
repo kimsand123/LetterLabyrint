@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -15,7 +16,7 @@ public class Main {
         Main go = new Main();
 
         AdjacencyList al = go.getInput();
-        System.out.println("number of steps " + al.BFS(0));
+        System.out.println(al.BFS(0));
 
     }
 
@@ -78,14 +79,14 @@ public class Main {
             case "up":
                 if (!(row==0)){
                     if (letterMatrix[column][row-1]!=letterMatrix[column][row]){
-                        al.addEdgeToVertex(row*5+column, (row-1)*5+column);
+                        al.addEdgeToVertex(row*k+column, (row-1)*k+column);
                     }
                 }
                 break;
             case "down":
                 if (!(row==k-1)){
                     if (letterMatrix[column][row+1]!=letterMatrix[column][row]){
-                        al.addEdgeToVertex(row*5+column, (row+1)*5+column);
+                        al.addEdgeToVertex(row*k+column, (row+1)*k+column);
                     }
                 }
                 break;
@@ -120,40 +121,38 @@ public class Main {
             adjacencyList[vertex].add(index,connectedNode);
         }
 
-        public int BFS(int vertexChecked){
-            LinkedList<Integer> BFSqueue = new LinkedList<Integer>();
-            boolean isVerticeVisited[] = new boolean[numberOfLists];
-            int numberOfSteps=0;
-            int smallestNumberOfSteps=0;
+        public int BFS(int vertex){
 
-            BFSqueue.add(vertexChecked);
-            isVerticeVisited[vertexChecked]= true;
+            boolean isVerticeVisited[] = new boolean[numberOfLists];
+            LinkedList<Integer> BFSqueue = new LinkedList<Integer>();
+            int[] distance = new int[numberOfLists];
+            Arrays.fill(distance,-1);
+            distance[vertex]=1;
+            BFSqueue.add(vertex);
 
             while(BFSqueue.size()!=0) {//while queue is not empty
-                System.out.print(" " + BFSqueue.size());
-                vertexChecked=BFSqueue.poll();
+                //System.out.print(" " + BFSqueue.size());
+                vertex = BFSqueue.poll();
 
-                Iterator<Integer>  adjacentVertices = adjacencyList[vertexChecked].listIterator();
+                Iterator<Integer>  adjacentVertices = adjacencyList[vertex].listIterator();
 
-                while (adjacentVertices.hasNext()){
+                while (adjacentVertices.hasNext()){ //if it has
 
-                    int checkVertexForVisited = adjacentVertices.next();//
+                    int neighbour = adjacentVertices.next();//
 
-                    if(!isVerticeVisited[checkVertexForVisited]){
-                        isVerticeVisited[checkVertexForVisited]= true;
-                        BFSqueue.add(checkVertexForVisited);
-                        numberOfSteps = BFSqueue.size();
-                        if (numberOfSteps > smallestNumberOfSteps){
-                            smallestNumberOfSteps=numberOfSteps;
-                        }
-
+                    if(distance[neighbour]==-1){ // if vertex hasnt been visited
+                        BFSqueue.add(neighbour);
+                        distance[neighbour]= distance[vertex] + 1;
                     }
 
                 }
 
             }
             System.out.println();
-            return smallestNumberOfSteps;
+            /*for(int counter =0;counter<numberOfLists;counter++){
+                System.out.println("Vertex: " + counter + "  Distance:  "+ distance[counter]);
+            }*/
+            return distance[numberOfLists-1];
         }
     }
 }
