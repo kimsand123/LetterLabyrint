@@ -20,14 +20,9 @@ public class Main {
 
     }
 
-
-
-
-
     public AdjacencyList getInput() throws IOException {
         BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
         String row="";
-
 
         //Scanner scanner = new Scanner(System.in);
         k = Integer.parseInt(scanner.readLine());
@@ -35,8 +30,6 @@ public class Main {
         AdjacencyList al = new AdjacencyList();
         letterMatrix = new char[k][k];
         System.out.println();
-
-
         for (int rowCounter = 0;rowCounter<k;rowCounter++) {
             row = scanner.readLine();
             for (int columnCounter = 0; columnCounter < k; columnCounter++) {
@@ -46,7 +39,6 @@ public class Main {
         scanner.close();
 
         for (int rowCounter = 0;rowCounter<k;rowCounter++) {
-
             for (int columnCounter = 0; columnCounter < k; columnCounter++) {
                 checkAndAdd(al,"left", columnCounter,rowCounter);
                 checkAndAdd(al,"right",columnCounter,rowCounter);
@@ -71,8 +63,6 @@ public class Main {
                 if (!(column==k-1)){
                     if (letterMatrix[column+1][row]!=letterMatrix[column][row]){
                         al.addEdgeToVertex(row*k+column, row*k+column+1);
-
-
                     }
                 }
                 break;
@@ -91,7 +81,6 @@ public class Main {
                 }
                 break;
         }
-
     }
 
     public class AdjacencyList {
@@ -99,7 +88,6 @@ public class Main {
 
         public AdjacencyList() {
             adjacencyList = new LinkedList[numberOfLists];
-
             //Creating the root list
             for(int counter = 0; counter < numberOfLists;counter++){
                 adjacencyList[counter] = new LinkedList<>();
@@ -109,7 +97,6 @@ public class Main {
         public void addEdgeToVertex(int vertex, int connectedNode) {
             int index =0;
             ListIterator<Integer> listIterator = adjacencyList[vertex].listIterator();
-
             while (listIterator.hasNext()) {
                 if (listIterator.next() > connectedNode) {
                     break;
@@ -117,7 +104,6 @@ public class Main {
                     index++;
                 }
             }
-
             adjacencyList[vertex].add(index,connectedNode);
         }
 
@@ -131,27 +117,17 @@ public class Main {
             BFSqueue.add(vertex);
 
             while(BFSqueue.size()!=0) {//while queue is not empty
-                //System.out.print(" " + BFSqueue.size());
                 vertex = BFSqueue.poll();
-
                 Iterator<Integer>  adjacentVertices = adjacencyList[vertex].listIterator();
-
                 while (adjacentVertices.hasNext()){ //if it has
-
                     int neighbour = adjacentVertices.next();//
-
                     if(distance[neighbour]==-1){ // if vertex hasnt been visited
                         BFSqueue.add(neighbour);
                         distance[neighbour]= distance[vertex] + 1;
                     }
-
                 }
-
             }
             System.out.println();
-            /*for(int counter =0;counter<numberOfLists;counter++){
-                System.out.println("Vertex: " + counter + "  Distance:  "+ distance[counter]);
-            }*/
             return distance[numberOfLists-1];
         }
     }
