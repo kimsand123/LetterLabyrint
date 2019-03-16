@@ -15,8 +15,8 @@ public class Main {
         Main go = new Main();
 
         AdjacencyList al = go.getInput();
-        System.out.println(al.BFS(0));
-        ;
+        System.out.println("number of steps " + al.BFS(0));
+
     }
 
 
@@ -120,43 +120,40 @@ public class Main {
             adjacencyList[vertex].add(index,connectedNode);
         }
 
-        public int BFS(int startpoint){
+        public int BFS(int vertexChecked){
             LinkedList<Integer> BFSqueue = new LinkedList<Integer>();
             boolean isVerticeVisited[] = new boolean[numberOfLists];
             int numberOfSteps=0;
             int smallestNumberOfSteps=0;
 
-            BFSqueue.add(startpoint);
-            isVerticeVisited[startpoint]= true;
+            BFSqueue.add(vertexChecked);
+            isVerticeVisited[vertexChecked]= true;
 
-            while(BFSqueue.size()!=0) {
-                numberOfSteps = bfsRecurse(startpoint, isVerticeVisited, BFSqueue);
-                if (numberOfSteps<smallestNumberOfSteps){
-                    smallestNumberOfSteps=numberOfSteps;
+            while(BFSqueue.size()!=0) {//while queue is not empty
+                System.out.print(" " + BFSqueue.size());
+                vertexChecked=BFSqueue.poll();
+
+                Iterator<Integer>  adjacentVertices = adjacencyList[vertexChecked].listIterator();
+
+                while (adjacentVertices.hasNext()){
+
+                    int checkVertexForVisited = adjacentVertices.next();//
+
+                    if(!isVerticeVisited[checkVertexForVisited]){
+                        isVerticeVisited[checkVertexForVisited]= true;
+                        BFSqueue.add(checkVertexForVisited);
+                        numberOfSteps = BFSqueue.size();
+                        if (numberOfSteps > smallestNumberOfSteps){
+                            smallestNumberOfSteps=numberOfSteps;
+                        }
+
+                    }
+
                 }
-                BFSqueue.poll();
-                }
 
-            return numberOfSteps-1;
-        }
-
-        public int  bfsRecurse(int startpoint, boolean isVerticeVisited[], LinkedList<Integer> BFSqueue){
-            int steps=0;
-
-            Iterator<Integer>  adjacentVertices = adjacencyList[startpoint].listIterator();
-
-            while (adjacentVertices.hasNext()){
-                int checkVertexForVisited = adjacentVertices.next();
-                if(!isVerticeVisited[checkVertexForVisited]){
-                    isVerticeVisited[checkVertexForVisited]= true;
-                    BFSqueue.add(checkVertexForVisited);
-                    steps++;
-                }
-                bfsRecurse(BFSqueue.poll(), isVerticeVisited, BFSqueue);
             }
-            return steps;
+            System.out.println();
+            return smallestNumberOfSteps;
         }
-
-
     }
 }
